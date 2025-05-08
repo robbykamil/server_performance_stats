@@ -8,49 +8,52 @@ LOGFILE=stats-log.txt
 INTERVAL=6
 
 
-echo "Monitoring health check server 'A' every $INTERVAL seconds"
-echo "Logging to $LOGFILE"
+if [ ! -f "$LOGFILE" ]; then
+    echo "Server Stats Log - Started at $(date)" > "$LOGFILE"
+    echo "=============================================================" >> "$LOGFILE"
+fi
+
+
+#function for read performance
+log_cpu_usage() {
+    echo "===========================CPU USAGE==========================="	
+    local usage=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
+    echo "CPU Usage: $usage%" | tee -a "$LOGFILE"
+}
+
+log_memory_usage() {
+    echo "=========================MEMORY USAGE=========================="
+    read total used free <<< $(free -m | awk '/^Mem:/ {print $2, $3, $4}')
+    echo "Total(MB): $total | Used(MB): $used | Free(MB): $free" | tee -a "$LOGFILE"
+}
+
+log_disk_usage() {
+    echo "==========================DISK USAGE==========================="
+    df -hP | grep -vE '^tmpfs|^udev' | tee -a "$LOGFILE"
+}
+
+log_top_processes() {
+    echo "============Top 5 Processes by CPU & Memory Usage=============="
+    echo "Top by CPU:" | tee -a "$LOGFILE"
+    ps -eo pid,user,%cpu,comm --sort=-%cpu | head -n 6 | tee -a "$LOGFILE"
+    echo "Top by Memory:" | tee -a "$LOGFILE"
+    ps -eo pid,user,%mem,comm --sort=-%mem | head -n 6 | tee -a "$LOGFILE"
+}
 
 
 #loop monitoring process until interrupted
-while true
-do
-	#get current timestamp
-	TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
-	echo "$TIMESTAMP"
-	echo " "
+while true; do
+    TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
+    echo "$TIMESTAMP" | tee -a "$LOGFILE"
+    echo " " | tee -a "$LOGFILE"
 
-	#get cpu usage
-	echo "===========================CPU USAGE==========================="	
-	CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print 100-$8}')
-	#write the cpu information to log
-	echo "CPU Usage: $CPU_USAGE%" | tee -a "$LOGFILE"
+    log_cpu_usage
+    log_memory_usage
+    log_disk_usage
+    log_top_processes
 
-	#get memory usage
-	echo "=========================MEMORY USAGE=========================="
-	read TOTAL USED FREE <<< $(free -m | awk '/^Mem:/ {print $2, $3, $4}')
-	#write the memory information to log
-	echo "Total: $TOTAL MB | Used: $USED MB | Free: $FREE MB" | tee -a "$LOGFILE"
-
-	#get disk usage
-	echo "==========================DISK USAGE==========================="
-	df -hP | grep -vE '^tmpfs|^udev' | while read -r line; do
-		echo "$line" | tee -a "$LOGFILE"
-	done
-
-	#get top 5 processes by CPU Usage
-	echo "============Top 5 Processes by CPU & Memory Usage=============="
-	cpu_usage=$(ps -eo pid,user,%cpu,comm --sort=-%cpu | head -n 6)
-	mem_usage=$(ps -eo pid,user,%mem,comm --sort=-%mem | head -n 6)
-	#write the top processes information to log
-	echo "$cpu_usage" | tee -a "$LOGFILE"
-	echo "$mem_usage" | tee -a "$LOGFILE"
-
-
-	echo "_end_"
-	#internal set
-	sleep "$INTERVAL"
-
+    sleep "$INTERVAL"
 done
 
+trap "echo -e '\nMonitoring stopped.'; exit" SIGINT
 

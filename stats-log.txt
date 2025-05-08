@@ -1,0 +1,68 @@
+Server Stats Log - Started at Fri May  9 00:21:47 WIB 2025
+=============================================================
+2025-05-09 00:21:47
+ 
+CPU Usage: 3.2%
+Total(MB): 5764 | Used(MB): 611 | Free(MB): 5159
+Filesystem      Size  Used Avail Use% Mounted on
+none            2.9G     0  2.9G   0% /usr/lib/modules/5.15.167.4-microsoft-standard-WSL2
+none            2.9G  4.0K  2.9G   1% /mnt/wsl
+drivers         200G  191G  9.7G  96% /usr/lib/wsl/drivers
+/dev/sdc       1007G  2.4G  954G   1% /
+none            2.9G   80K  2.9G   1% /mnt/wslg
+none            2.9G     0  2.9G   0% /usr/lib/wsl/lib
+rootfs          2.9G  2.4M  2.9G   1% /init
+none            2.9G  508K  2.9G   1% /run
+none            2.9G     0  2.9G   0% /run/lock
+none            2.9G     0  2.9G   0% /run/shm
+none            2.9G   76K  2.9G   1% /mnt/wslg/versions.txt
+none            2.9G   76K  2.9G   1% /mnt/wslg/doc
+C:\             200G  191G  9.7G  96% /mnt/c
+D:\             276G  261G   15G  95% /mnt/d
+Top by CPU:
+    PID USER     %CPU COMMAND
+   1328 robbyka+  3.7 server-stats.sh
+    195 root      0.0 containerd
+    273 root      0.0 dockerd
+      1 root      0.0 systemd
+    417 root      0.0 Relay(418)
+Top by Memory:
+    PID USER     %MEM COMMAND
+    273 root      1.3 dockerd
+    195 root      0.8 containerd
+    226 root      0.3 unattended-upgr
+     55 root      0.2 systemd-journal
+    177 root      0.2 wsl-pro-service
+2025-05-09 00:21:53
+ 
+CPU Usage: 1.1%
+Total(MB): 5764 | Used(MB): 613 | Free(MB): 5158
+Filesystem      Size  Used Avail Use% Mounted on
+none            2.9G     0  2.9G   0% /usr/lib/modules/5.15.167.4-microsoft-standard-WSL2
+none            2.9G  4.0K  2.9G   1% /mnt/wsl
+drivers         200G  191G  9.7G  96% /usr/lib/wsl/drivers
+/dev/sdc       1007G  2.4G  954G   1% /
+none            2.9G   80K  2.9G   1% /mnt/wslg
+none            2.9G     0  2.9G   0% /usr/lib/wsl/lib
+rootfs          2.9G  2.4M  2.9G   1% /init
+none            2.9G  508K  2.9G   1% /run
+none            2.9G     0  2.9G   0% /run/lock
+none            2.9G     0  2.9G   0% /run/shm
+none            2.9G   76K  2.9G   1% /mnt/wslg/versions.txt
+none            2.9G   76K  2.9G   1% /mnt/wslg/doc
+C:\             200G  191G  9.7G  96% /mnt/c
+D:\             276G  261G   15G  95% /mnt/d
+Top by CPU:
+    PID USER     %CPU COMMAND
+   1328 robbyka+  0.4 server-stats.sh
+    195 root      0.0 containerd
+    273 root      0.0 dockerd
+      1 root      0.0 systemd
+    417 root      0.0 Relay(418)
+Top by Memory:
+    PID USER     %MEM COMMAND
+    273 root      1.3 dockerd
+    195 root      0.8 containerd
+    226 root      0.3 unattended-upgr
+     55 root      0.2 systemd-journal
+    177 root      0.2 wsl-pro-service

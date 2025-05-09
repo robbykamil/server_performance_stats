@@ -13,6 +13,8 @@ if [ ! -f "$LOGFILE" ]; then
     echo "=============================================================" >> "$LOGFILE"
 fi
 
+trap "echo -e '\nMonitoring stopped by user.'; exit" SIGINT
+
 
 #function for read performance
 log_cpu_usage() {
@@ -54,6 +56,4 @@ while true; do
 
     sleep "$INTERVAL"
 done
-
-trap "echo -e '\nMonitoring stopped.'; exit" SIGINT
 

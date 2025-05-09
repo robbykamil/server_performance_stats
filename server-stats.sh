@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-#LOGFILE
-LOGFILE=stats-log.txt
+CURRENT_DATE=$(date '+%Y-%m-%d')
+LOGFILE="stats-log-$CURRENT_DATE.txt"
 
 #interval in seconds between checks
 INTERVAL=6
@@ -45,6 +45,13 @@ log_top_processes() {
 
 #loop monitoring process until interrupted
 while true; do
+    NEW_DATE=$(date '+%Y-%m-%d')
+    if [ "$NEW_DATE" != "$CURRENT_DATE" ]; then
+        CURRENT_DATE="$NEW_DATE"
+        LOGFILE="stats-log-$CURRENT_DATE.txt"
+        echo "===Starting New Log $LOGFILE==="
+    fi
+
     TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
     echo "$TIMESTAMP" | tee -a "$LOGFILE"
     echo " " | tee -a "$LOGFILE"
